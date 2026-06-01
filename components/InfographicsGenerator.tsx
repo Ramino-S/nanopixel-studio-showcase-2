@@ -1,7 +1,17 @@
 import React, { useState } from 'react';
-import {
-  LayoutTemplate, Sparkles, Layers, Wand2, CheckCircle2, Compass,
-  ArrowRight, Mail, Zap, Flame, Info, Clock
+import { 
+  LayoutTemplate, 
+  Sparkles, 
+  Layers, 
+  Wand2, 
+  CheckCircle2, 
+  Compass, 
+  ArrowRight, 
+  Mail, 
+  Zap, 
+  Flame, 
+  Info,
+  Clock
 } from 'lucide-react';
 
 interface InfographicsGeneratorProps {
