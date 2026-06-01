@@ -65,10 +65,10 @@ nanopixel-studio/
 │   ├── openRouterService.ts # Клиент для генераторов семейства FLUX.2
 │   └── historyService.ts    # Локальное хранилище и кэш генераций
 ├── types.ts                 # Глобальные интерфейсы и TypeScript перечисления
-├── App.tsx                 # Главный компонент разводки вкладок приложения
-├── index.css               # Базовые стили и интеграция Tailwind
-├── index.html              # Точка входа HTML (с CDN загрузчиком)
-└── tsconfig.json           # Конфигурация TypeScript
+├── App.tsx                  # Главный компонент разводки вкладок приложения
+├── index.css                # Базовые стили и интеграция Tailwind
+├── index.html               # Точка входа HTML (с CDN загрузчиком)
+└── tsconfig.json            # Конфигурация TypeScript
 ```
 ---
 
