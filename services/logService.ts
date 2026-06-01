@@ -1,5 +1,5 @@
 /**
- * Centralized Logging Service for NanoPixel Studio 24.
+ * Centralized Logging Service for NanoPixel Studio.
  *
  * Stores structured log entries in memory + localStorage.
  * Provides filtering, export, and a reactive subscription model
