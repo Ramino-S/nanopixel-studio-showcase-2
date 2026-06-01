@@ -57,13 +57,13 @@ const InfographicsGenerator: React.FC<InfographicsGeneratorProps> = () => {
 
   return (
     <div className="space-y-8 animate-fade-in pb-8">
-      {/* Hero Showcase Card */}
+      {/* Главная карточка с описанием (Hero-секция) */}
       <div className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-950 border border-slate-700/60 rounded-3xl p-8 md:p-12 shadow-2xl">
         <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-rose-500/10 to-indigo-600/10 blur-3xl -z-10 rounded-full" />
         <div className="absolute -bottom-20 -left-20 w-80 h-80 bg-emerald-500/5 blur-3xl -z-10 rounded-full" />
         
         <div className="max-w-4xl">
-          {/* Active Development Badge */}
+          {/* Плашка активной разработки (пульсирующая) */}
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs font-semibold mb-6 animate-pulse">
             <span className="w-2 h-2 rounded-full bg-rose-500 animate-ping" />
             Функция в активной разработке
@@ -96,7 +96,7 @@ const InfographicsGenerator: React.FC<InfographicsGeneratorProps> = () => {
         </div>
       </div>
 
-      {/* Grid of Key Innovations */}
+      {/* Сетка ключевых нововведений и фич */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="bg-slate-800/40 border border-slate-700/50 rounded-2xl p-6 hover:border-slate-600/80 transition-all group">
           <div className="p-3 bg-rose-500/10 text-rose-400 rounded-xl w-fit mb-4 group-hover:scale-110 transition-transform">
@@ -129,11 +129,11 @@ const InfographicsGenerator: React.FC<InfographicsGeneratorProps> = () => {
         </div>
       </div>
 
-      {/* Interactive Concept Showcase */}
+      {/* Интерактивный демонстратор концептов */}
       <div className="bg-slate-850 border border-slate-700/50 rounded-3xl p-6 md:p-8 shadow-xl">
         <div className="flex flex-col lg:flex-row gap-8 items-stretch">
           
-          {/* Selector & Specs */}
+          {/* Селектор маркетплейсов и характеристики шаблона */}
           <div className="lg:w-1/2 flex flex-col justify-between space-y-6">
             <div>
               <h3 className="text-xl font-bold text-white mb-2 flex items-center gap-2">
@@ -145,7 +145,7 @@ const InfographicsGenerator: React.FC<InfographicsGeneratorProps> = () => {
               </p>
             </div>
 
-            {/* Tabs */}
+            {/* Вкладки переключения маркетплейсов */}
             <div className="grid grid-cols-3 gap-2 bg-slate-900 p-1 rounded-xl border border-slate-800">
               <button 
                 onClick={() => setSelectedConcept('wb')}
@@ -167,7 +167,7 @@ const InfographicsGenerator: React.FC<InfographicsGeneratorProps> = () => {
               </button>
             </div>
 
-            {/* Spec Details Card */}
+            {/* Карточка с детальными спецификациями */}
             <div className={`p-5 rounded-2xl border transition-all duration-300 ${concepts[selectedConcept].bgGradient}`}>
               <div className="flex items-center justify-between mb-3">
                 <h4 className="font-extrabold text-white text-sm">{concepts[selectedConcept].title}</h4>
@@ -193,7 +193,7 @@ const InfographicsGenerator: React.FC<InfographicsGeneratorProps> = () => {
             </div>
           </div>
 
-          {/* Graphical Mockup Display */}
+          {/* Визуализация макета карточки товара */}
           <div className="lg:w-1/2 bg-slate-900 rounded-2xl border border-slate-700/60 p-6 flex flex-col justify-between min-h-[320px]">
             <div className="flex items-center justify-between mb-4 border-b border-slate-800 pb-3">
               <span className="text-xs font-bold text-slate-400 flex items-center gap-1.5">
@@ -205,9 +205,9 @@ const InfographicsGenerator: React.FC<InfographicsGeneratorProps> = () => {
               </span>
             </div>
 
-            {/* Mock Layout Grid */}
+            {/* Сетка демонстрационного макета */}
             <div className="relative flex-1 bg-slate-950 rounded-xl border border-slate-800/80 p-4 flex flex-col justify-between overflow-hidden shadow-inner min-h-[220px]">
-              {/* Fake AI pedestal graphic */}
+              {/* Графика ИИ-подиума (фоновый концепт) */}
               <div className="absolute inset-0 flex items-center justify-center opacity-25">
                 <div className="relative flex flex-col items-center">
                   <div className="w-24 h-24 rounded-full bg-gradient-to-b from-rose-500 to-indigo-600 blur-md animate-pulse" />
@@ -215,7 +215,7 @@ const InfographicsGenerator: React.FC<InfographicsGeneratorProps> = () => {
                 </div>
               </div>
 
-              {/* Top Row: Fake Title Card Overlay */}
+              {/* Верхняя зона: Оверлей названия товара */}
               <div className="z-10 space-y-1">
                 <div className="h-4 w-20 bg-rose-500/20 border border-rose-500/30 rounded text-[9px] font-bold text-rose-300 uppercase flex items-center justify-center px-1.5">
                   Категория
@@ -225,14 +225,14 @@ const InfographicsGenerator: React.FC<InfographicsGeneratorProps> = () => {
                 </div>
               </div>
 
-              {/* Middle Row: Product area outline */}
+              {/* Средняя зона: Место размещения товара */}
               <div className="z-10 flex items-center justify-center my-2">
                 <div className="border border-dashed border-slate-600/60 rounded-lg p-2 px-4 bg-slate-900/40 backdrop-blur-sm text-[10px] text-slate-500 font-mono">
                   ЗОНА РАЗМЕЩЕНИЯ ТОВАРА
                 </div>
               </div>
 
-              {/* Bottom Row: Specs indicators */}
+              {/* Нижняя зона: Дополнительные плашки преимуществ */}
               <div className="z-10 flex flex-col gap-1.5 max-w-[70%]">
                 <div className="h-5 bg-emerald-500/10 border border-emerald-500/20 rounded flex items-center px-2 text-[8px] font-bold text-emerald-300 gap-1.5">
                   <CheckCircle2 size={10} className="text-emerald-400" />
@@ -253,10 +253,10 @@ const InfographicsGenerator: React.FC<InfographicsGeneratorProps> = () => {
         </div>
       </div>
 
-      {/* Roadmap & Subscription Forms */}
+      {/* Блок дорожной карты и формы подписки */}
       <div id="beta-form" className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
         
-        {/* Interactive Roadmap Panel */}
+        {/* Интерактивная панель дорожной карты */}
         <div className="bg-slate-800/30 border border-slate-700/50 rounded-3xl p-6 md:p-8 flex flex-col justify-between">
           <div>
             <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
@@ -313,7 +313,7 @@ const InfographicsGenerator: React.FC<InfographicsGeneratorProps> = () => {
           </div>
         </div>
 
-        {/* Dynamic Join Beta Card */}
+        {/* Карточка формы записи на бета-тест */}
         <div className="bg-gradient-to-br from-indigo-950/40 via-slate-900 to-slate-850 border border-indigo-500/20 rounded-3xl p-6 md:p-8 flex flex-col justify-between relative overflow-hidden">
           <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/10 blur-2xl -z-10 rounded-full" />
           
