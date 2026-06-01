@@ -80,6 +80,6 @@ nanopixel-studio/
 
 ## 📄 Лицензия
 
-Данный проект защищен авторским правом и поставляется под закрытой лицензией **Proprietary & Confidential License**. Исходный код предоставлен исключительно в ознакомительных целях для оценки потенциальными работодателями и рекрутерами. Любое коммерческое или стороннее использование, копирование или распространение строго запрещено.
+Данный проект защищен авторским правом и поставляется под закрытой лицензией **Proprietary & Confidential License**. Информация предоставлена исключительно в ознакомительных целях для оценки потенциальными работодателями и рекрутерами. Любое коммерческое или стороннее использование, копирование или распространение строго запрещено.
 
 This project is protected by copyright and is distributed under a **Proprietary & Confidential License**. The source code is provided solely for evaluation and review by potential employers or recruiters. Any commercial or third-party usage, copying, or distribution is strictly prohibited.
