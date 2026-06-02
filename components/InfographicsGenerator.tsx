@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
   LayoutTemplate, 
   Sparkles, 
@@ -15,65 +15,80 @@ import {
 } from 'lucide-react';
 
 interface InfographicsGeneratorProps {
-  onDownload: (url: string, format: 'png' | 'jpg') => void;
+  onDownload?: (url: string, format: 'png' | 'jpg') => void;
   onView?: (url: string) => void;
   onSuccess?: (urls: string[], prompt: string, aspectRatio: string) => void;
 }
 
-const InfographicsGenerator: React.FC<InfographicsGeneratorProps> = () => {
+const MARKETPLACE_TEMPLATES = {
+  wb: {
+    title: 'Шаблон Wildberries (1:1)',
+    desc: 'Яркий, контрастный стиль с акцентом на УТП. Оптимизирован под квадратную выдачу мобильного приложения.',
+    badge: 'Рекомендуется для одежды и бьюти',
+    bgGradient: 'from-pink-500/10 to-purple-500/10 border-pink-500/30',
+    tagColor: 'bg-pink-500/20 text-pink-300 border-pink-500/40',
+    specs: ['Безопасные зоны под плашки WB', 'Высокий контраст (CTR+24%)', 'Акцентные 3D-элементы'],
+  },
+  ozon: {
+    title: 'Шаблон Ozon (3:4)',
+    desc: 'Премиальный минимализм в стиле Apple. Идеально сбалансированное соотношение сторон для детального просмотра товара.',
+    badge: 'Рекомендуется для электроники',
+    bgGradient: 'from-blue-500/10 to-indigo-500/10 border-blue-500/30',
+    tagColor: 'bg-blue-500/20 text-blue-300 border-blue-500/40',
+    specs: ['Сетка выравнивания Ozon', 'Интеграция с плашками скидок', 'Мягкие студийные тени'],
+  },
+  yandex: {
+    title: 'Шаблон Яндекс.Маркет (3:4)',
+    desc: 'Технологичный и современный дизайн с четкой иерархией шрифтов для быстрого сканирования характеристик товара.',
+    badge: 'Рекомендуется для дома и авто',
+    bgGradient: 'from-yellow-500/10 to-amber-500/10 border-yellow-500/30',
+    tagColor: 'bg-yellow-500/20 text-amber-300 border-yellow-500/40',
+    specs: ['Желтый фирменный акцент', 'Инфографика технических спецификаций', 'Чистый белый/серый фон'],
+  }
+} as const;
+
+export default function InfographicsGenerator({
+  onDownload,
+  onView,
+  onSuccess
+}: InfographicsGeneratorProps) {
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubscribed, setIsSubscribed] = useState(false);
-  const [selectedConcept, setSelectedConcept] = useState<'wb' | 'ozon' | 'yandex'>('wb');
+  const [selectedConcept, setSelectedConcept] = useState<keyof typeof MARKETPLACE_TEMPLATES>('wb');
+  
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+    };
+  }, []);
 
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !email.includes('@')) return;
 
     setIsSubmitting(true);
-    setTimeout(() => {
+    timerRef.current = setTimeout(() => {
       setIsSubmitting(false);
       setIsSubscribed(true);
       setEmail('');
+      timerRef.current = null;
     }, 1200);
   };
 
-  const concepts = {
-    wb: {
-      title: 'Шаблон Wildberries (1:1)',
-      desc: 'Яркий, контрастный стиль с акцентом на УТП. Оптимизирован под квадратную выдачу мобильного приложения.',
-      badge: 'Рекомендуется для одежды и бьюти',
-      bgGradient: 'from-pink-500/10 to-purple-500/10 border-pink-500/30',
-      tagColor: 'bg-pink-500/20 text-pink-300 border-pink-500/40',
-      specs: ['Безопасные зоны под плашки WB', 'Высокий контраст (CTR+24%)', 'Акцентные 3D-элементы'],
-    },
-    ozon: {
-      title: 'Шаблон Ozon (3:4)',
-      desc: 'Премиальный минимализм в стиле Apple. Идеально сбалансированное соотношение сторон для детального просмотра товара.',
-      badge: 'Рекомендуется для электроники',
-      bgGradient: 'from-blue-500/10 to-indigo-500/10 border-blue-500/30',
-      tagColor: 'bg-blue-500/20 text-blue-300 border-blue-500/40',
-      specs: ['Сетка выравнивания Ozon', 'Интеграция с плашками скидок', 'Мягкие студийные тени'],
-    },
-    yandex: {
-      title: 'Шаблон Яндекс.Маркет (3:4)',
-      desc: 'Технологичный и современный дизайн с четкой иерархией шрифтов для быстрого сканирования характеристик товара.',
-      badge: 'Рекомендуется для дома и авто',
-      bgGradient: 'from-yellow-500/10 to-amber-500/10 border-yellow-500/30',
-      tagColor: 'bg-yellow-500/20 text-amber-300 border-yellow-500/40',
-      specs: ['Желтый фирменный акцент', 'Инфографика технических спецификаций', 'Чистый белый/серый фон'],
-    }
-  };
+  const activeTemplate = MARKETPLACE_TEMPLATES[selectedConcept];
 
   return (
     <div className="space-y-8 animate-fade-in pb-8">
-      {/* Главная карточка с описанием (Hero-секция) */}
       <div className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-950 border border-slate-700/60 rounded-3xl p-8 md:p-12 shadow-2xl">
         <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-rose-500/10 to-indigo-600/10 blur-3xl -z-10 rounded-full" />
         <div className="absolute -bottom-20 -left-20 w-80 h-80 bg-emerald-500/5 blur-3xl -z-10 rounded-full" />
         
         <div className="max-w-4xl">
-          {/* Плашка активной разработки (пульсирующая) */}
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs font-semibold mb-6 animate-pulse">
             <span className="w-2 h-2 rounded-full bg-rose-500 animate-ping" />
             Функция в активной разработке
@@ -106,7 +121,6 @@ const InfographicsGenerator: React.FC<InfographicsGeneratorProps> = () => {
         </div>
       </div>
 
-      {/* Сетка ключевых нововведений и фич */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="bg-slate-800/40 border border-slate-700/50 rounded-2xl p-6 hover:border-slate-600/80 transition-all group">
           <div className="p-3 bg-rose-500/10 text-rose-400 rounded-xl w-fit mb-4 group-hover:scale-110 transition-transform">
@@ -139,11 +153,9 @@ const InfographicsGenerator: React.FC<InfographicsGeneratorProps> = () => {
         </div>
       </div>
 
-      {/* Интерактивный демонстратор концептов */}
-      <div className="bg-slate-850 border border-slate-700/50 rounded-3xl p-6 md:p-8 shadow-xl">
+      <div className="bg-slate-900/50 backdrop-blur-md border border-slate-700/50 rounded-3xl p-6 md:p-8 shadow-xl">
         <div className="flex flex-col lg:flex-row gap-8 items-stretch">
           
-          {/* Селектор маркетплейсов и характеристики шаблона */}
           <div className="lg:w-1/2 flex flex-col justify-between space-y-6">
             <div>
               <h3 className="text-xl font-bold text-white mb-2 flex items-center gap-2">
@@ -155,7 +167,6 @@ const InfographicsGenerator: React.FC<InfographicsGeneratorProps> = () => {
               </p>
             </div>
 
-            {/* Вкладки переключения маркетплейсов */}
             <div className="grid grid-cols-3 gap-2 bg-slate-900 p-1 rounded-xl border border-slate-800">
               <button 
                 onClick={() => setSelectedConcept('wb')}
@@ -177,22 +188,21 @@ const InfographicsGenerator: React.FC<InfographicsGeneratorProps> = () => {
               </button>
             </div>
 
-            {/* Карточка с детальными спецификациями */}
-            <div className={`p-5 rounded-2xl border transition-all duration-300 ${concepts[selectedConcept].bgGradient}`}>
+            <div className={`p-5 rounded-2xl border transition-all duration-300 ${activeTemplate.bgGradient}`}>
               <div className="flex items-center justify-between mb-3">
-                <h4 className="font-extrabold text-white text-sm">{concepts[selectedConcept].title}</h4>
-                <span className={`text-[10px] px-2 py-0.5 rounded-md border font-bold ${concepts[selectedConcept].tagColor}`}>
-                  {concepts[selectedConcept].badge}
+                <h4 className="font-extrabold text-white text-sm">{activeTemplate.title}</h4>
+                <span className={`text-[10px] px-2 py-0.5 rounded-md border font-bold ${activeTemplate.tagColor}`}>
+                  {activeTemplate.badge}
                 </span>
               </div>
               <p className="text-slate-300 text-xs leading-relaxed mb-4">
-                {concepts[selectedConcept].desc}
+                {activeTemplate.desc}
               </p>
               
               <div className="space-y-2">
                 <span className="text-[10px] font-bold uppercase text-slate-500">Возможности сетки шаблона:</span>
                 <ul className="space-y-1">
-                  {concepts[selectedConcept].specs.map((spec, i) => (
+                  {activeTemplate.specs.map((spec, i) => (
                     <li key={i} className="text-xs text-slate-300 flex items-center gap-2">
                       <CheckCircle2 size={12} className="text-emerald-400" />
                       {spec}
@@ -203,7 +213,6 @@ const InfographicsGenerator: React.FC<InfographicsGeneratorProps> = () => {
             </div>
           </div>
 
-          {/* Визуализация макета карточки товара */}
           <div className="lg:w-1/2 bg-slate-900 rounded-2xl border border-slate-700/60 p-6 flex flex-col justify-between min-h-[320px]">
             <div className="flex items-center justify-between mb-4 border-b border-slate-800 pb-3">
               <span className="text-xs font-bold text-slate-400 flex items-center gap-1.5">
@@ -215,9 +224,7 @@ const InfographicsGenerator: React.FC<InfographicsGeneratorProps> = () => {
               </span>
             </div>
 
-            {/* Сетка демонстрационного макета */}
             <div className="relative flex-1 bg-slate-950 rounded-xl border border-slate-800/80 p-4 flex flex-col justify-between overflow-hidden shadow-inner min-h-[220px]">
-              {/* Графика ИИ-подиума (фоновый концепт) */}
               <div className="absolute inset-0 flex items-center justify-center opacity-25">
                 <div className="relative flex flex-col items-center">
                   <div className="w-24 h-24 rounded-full bg-gradient-to-b from-rose-500 to-indigo-600 blur-md animate-pulse" />
@@ -225,7 +232,6 @@ const InfographicsGenerator: React.FC<InfographicsGeneratorProps> = () => {
                 </div>
               </div>
 
-              {/* Верхняя зона: Оверлей названия товара */}
               <div className="z-10 space-y-1">
                 <div className="h-4 w-20 bg-rose-500/20 border border-rose-500/30 rounded text-[9px] font-bold text-rose-300 uppercase flex items-center justify-center px-1.5">
                   Категория
@@ -235,14 +241,12 @@ const InfographicsGenerator: React.FC<InfographicsGeneratorProps> = () => {
                 </div>
               </div>
 
-              {/* Средняя зона: Место размещения товара */}
               <div className="z-10 flex items-center justify-center my-2">
                 <div className="border border-dashed border-slate-600/60 rounded-lg p-2 px-4 bg-slate-900/40 backdrop-blur-sm text-[10px] text-slate-500 font-mono">
                   ЗОНА РАЗМЕЩЕНИЯ ТОВАРА
                 </div>
               </div>
 
-              {/* Нижняя зона: Дополнительные плашки преимуществ */}
               <div className="z-10 flex flex-col gap-1.5 max-w-[70%]">
                 <div className="h-5 bg-emerald-500/10 border border-emerald-500/20 rounded flex items-center px-2 text-[8px] font-bold text-emerald-300 gap-1.5">
                   <CheckCircle2 size={10} className="text-emerald-400" />
@@ -263,10 +267,7 @@ const InfographicsGenerator: React.FC<InfographicsGeneratorProps> = () => {
         </div>
       </div>
 
-      {/* Блок дорожной карты и формы подписки */}
       <div id="beta-form" className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
-        
-        {/* Интерактивная панель дорожной карты */}
         <div className="bg-slate-800/30 border border-slate-700/50 rounded-3xl p-6 md:p-8 flex flex-col justify-between">
           <div>
             <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
@@ -323,7 +324,6 @@ const InfographicsGenerator: React.FC<InfographicsGeneratorProps> = () => {
           </div>
         </div>
 
-        {/* Карточка формы записи на бета-тест */}
         <div className="bg-gradient-to-br from-indigo-950/40 via-slate-900 to-slate-850 border border-indigo-500/20 rounded-3xl p-6 md:p-8 flex flex-col justify-between relative overflow-hidden">
           <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/10 blur-2xl -z-10 rounded-full" />
           
@@ -376,6 +376,4 @@ const InfographicsGenerator: React.FC<InfographicsGeneratorProps> = () => {
       </div>
     </div>
   );
-};
-
-export default InfographicsGenerator;
+}
